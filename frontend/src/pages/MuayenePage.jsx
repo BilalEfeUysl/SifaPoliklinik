@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { randevuAPI, muayeneAPI, doktorAPI } from '../api/axiosConfig';
 import { useAuth } from '../context/AuthContext';
-import { Stethoscope, FileText, X, Eye } from 'lucide-react';
+import { Stethoscope, FileText, X, Eye, Printer } from 'lucide-react';
 
 export default function MuayenePage() {
   const { hasRole, user } = useAuth();
@@ -18,6 +18,8 @@ export default function MuayenePage() {
   const [error, setError] = useState('');
   const [form, setForm] = useState({ tani: '', recete: '', rapor: '', sevkKurumu: '' });
   const [doktorBilgi, setDoktorBilgi] = useState(null);
+  const [showSevkModal, setShowSevkModal] = useState(false);
+  const [sevkMuayene, setSevkMuayene] = useState(null);
 
   useEffect(() => { loadData(); }, []);
 
@@ -54,11 +56,22 @@ export default function MuayenePage() {
   const handleSubmit = async (e) => {
     e.preventDefault(); setError('');
     try {
-      await muayeneAPI.create({
+      const res = await muayeneAPI.create({
         randevuId: selectedRandevu.id,
         tani: form.tani, recete: form.recete, rapor: form.rapor, sevkKurumu: form.sevkKurumu
       });
-      setShowModal(false); loadData();
+      setShowModal(false);
+      if (form.sevkKurumu?.trim()) {
+        const kaydedilen = res?.data ?? {
+          sevkKurumu: form.sevkKurumu,
+          tani: form.tani,
+          muayeneTarihi: new Date().toISOString(),
+          randevu: selectedRandevu,
+        };
+        setSevkMuayene(kaydedilen);
+        setShowSevkModal(true);
+      }
+      loadData();
     } catch (err) { setError(err.response?.data?.mesaj || 'Muayene kaydı oluşturulamadı.'); }
   };
 
@@ -106,6 +119,13 @@ export default function MuayenePage() {
           </div>
         </div>
 
+        {showSevkModal && sevkMuayene && (
+          <SevkKagidiModal
+            muayene={sevkMuayene}
+            onClose={() => { setShowSevkModal(false); setSevkMuayene(null); }}
+          />
+        )}
+
         {showViewModal && selectedMuayene && (
           <div className="modal-overlay" onClick={() => setShowViewModal(false)}>
             <div className="modal" style={{ maxWidth: 640 }} onClick={e => e.stopPropagation()}>
@@ -133,7 +153,22 @@ export default function MuayenePage() {
                     <div style={{ padding: '10px 12px', background: 'var(--gray-50)', borderRadius: 6, fontSize: 13 }}>{selectedMuayene.sevkKurumu}</div></div>
                 )}
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer" style={{ justifyContent: 'space-between' }}>
+                <div>
+                  {selectedMuayene.sevkKurumu && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        setSevkMuayene(selectedMuayene);
+                        setShowViewModal(false);
+                        setShowSevkModal(true);
+                      }}
+                    >
+                      <Printer size={14} /> Sevk Kâğıdı Yazdır
+                    </button>
+                  )}
+                </div>
                 <button type="button" className="btn btn-secondary" onClick={() => setShowViewModal(false)}>Kapat</button>
               </div>
             </div>
@@ -183,45 +218,186 @@ export default function MuayenePage() {
 
       {showModal && selectedRandevu && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal" style={{ maxWidth: 640 }} onClick={e => e.stopPropagation()}>
-            <div className="modal-header"><h3>Muayene Kaydı</h3>
-              <button className="btn-icon" onClick={() => setShowModal(false)}><X size={18} /></button></div>
-            <form onSubmit={handleSubmit}>
-              <div className="modal-body">
-                {error && <div style={{ background: 'var(--danger-bg)', color: '#991b1b', padding: '10px', borderRadius: 6, fontSize: 13, marginBottom: 16 }}>{error}</div>}
-                <div style={{ background: 'var(--gray-50)', padding: 16, borderRadius: 8, marginBottom: 20 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 13 }}>
-                    <div><strong>Hasta:</strong> {selectedRandevu.hasta?.ad} {selectedRandevu.hasta?.soyad}</div>
-                    <div><strong>TC:</strong> {selectedRandevu.hasta?.tcKimlik}</div>
-                    <div><strong>Doktor:</strong> {selectedRandevu.doktor?.unvan} {selectedRandevu.doktor?.kullanici?.ad}</div>
-                    <div><strong>Klinik:</strong> {selectedRandevu.doktor?.klinik?.ad}</div>
-                  </div>
+          <div className="modal" style={{ maxWidth: 500 }} onClick={e => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className="modal-header" style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f1f5f9' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 36, height: 36, background: '#f0fdfa', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Stethoscope size={18} color="#0d9488" />
                 </div>
-                <div className="form-group"><label className="form-label">Tanı / Teşhis *</label>
+                <div>
+                  <h3 style={{ fontSize: 15, fontWeight: 700 }}>Muayene Kaydı</h3>
+                  <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 1 }}>Bulgular ve tedavi bilgilerini girin</div>
+                </div>
+              </div>
+              <button className="btn-icon" onClick={() => setShowModal(false)}><X size={16} /></button>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="modal-body" style={{ padding: '20px 24px 4px' }}>
+
+                {error && (
+                  <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', padding: '10px 12px', borderRadius: 8, fontSize: 13, marginBottom: 16 }}>
+                    {error}
+                  </div>
+                )}
+
+                {/* Hasta şeridi */}
+                <div style={{ background: '#f8fafc', borderRadius: 10, padding: '12px 16px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, background: 'linear-gradient(135deg, #0d9488, #06b6d4)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 13, fontWeight: 700, flexShrink: 0, letterSpacing: 0.5 }}>
+                    {(selectedRandevu.hasta?.ad?.[0] || '') + (selectedRandevu.hasta?.soyad?.[0] || '')}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{selectedRandevu.hasta?.ad} {selectedRandevu.hasta?.soyad}</div>
+                    <div style={{ fontSize: 11, color: '#64748b', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      TC: {selectedRandevu.hasta?.tcKimlik} · {selectedRandevu.doktor?.unvan} {selectedRandevu.doktor?.kullanici?.ad}
+                    </div>
+                  </div>
+                  <span style={{ display: 'inline-block', background: '#f0fdfa', border: '1px solid #99f6e4', color: '#0d9488', fontSize: 10, fontWeight: 600, borderRadius: 20, padding: '3px 10px', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {selectedRandevu.doktor?.klinik?.ad || 'Klinik'}
+                  </span>
+                </div>
+
+                {/* Tanı */}
+                <div className="form-group">
+                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', display: 'inline-block', flexShrink: 0 }} />
+                    Tanı / Teşhis <span style={{ color: '#f43f5e', marginLeft: 2 }}>*</span>
+                  </label>
                   <textarea className="form-textarea" value={form.tani} rows={3}
                     onChange={e => setForm({ ...form, tani: e.target.value })} required
-                    placeholder="Hastanın tanısını yazınız..." /></div>
-                <div className="form-group"><label className="form-label">Reçete (İlaçlar)</label>
+                    placeholder="Hastanın tanısını ve teşhisini yazınız…" />
+                </div>
+
+                {/* Reçete */}
+                <div className="form-group">
+                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', display: 'inline-block', flexShrink: 0 }} />
+                    Reçete (İlaçlar)
+                  </label>
                   <textarea className="form-textarea" value={form.recete} rows={3}
                     onChange={e => setForm({ ...form, recete: e.target.value })}
-                    placeholder="Yazılan ilaçları giriniz..." /></div>
-                <div className="form-group"><label className="form-label">Rapor</label>
+                    placeholder="Yazılan ilaçları ve dozajları giriniz…" />
+                </div>
+
+                {/* Rapor */}
+                <div className="form-group">
+                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981', display: 'inline-block', flexShrink: 0 }} />
+                    Rapor
+                  </label>
                   <textarea className="form-textarea" value={form.rapor} rows={3}
                     onChange={e => setForm({ ...form, rapor: e.target.value })}
-                    placeholder="Muayene raporunu yazınız..." /></div>
-                <div className="form-group"><label className="form-label">Sevk Edilecek Kurum (İsteğe Bağlı)</label>
+                    placeholder="Muayene raporunu yazınız…" />
+                </div>
+
+                {/* Sevk */}
+                <div className="form-group">
+                  <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#e2e8f0', display: 'inline-block', flexShrink: 0 }} />
+                    Sevk Kurumu
+                    <span style={{ fontSize: 10, fontWeight: 400, color: '#94a3b8', marginLeft: 2 }}>(isteğe bağlı)</span>
+                  </label>
                   <input className="form-input" value={form.sevkKurumu}
                     onChange={e => setForm({ ...form, sevkKurumu: e.target.value })}
-                    placeholder="Örn: X Eğitim Araştırma Hastanesi - Kardiyoloji Polikliniği" /></div>
+                    placeholder="Örn: X Eğitim Araştırma Hastanesi — Kardiyoloji Polikliniği"
+                    style={{ border: '1.5px dashed var(--gray-200)', background: '#fafafa' }} />
+                </div>
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>İptal</button>
-                <button type="submit" className="btn btn-primary"><FileText size={16} /> Muayene Kaydet</button>
+
+              <div className="modal-footer" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '14px 24px' }}>
+                <span style={{ fontSize: 11, color: '#94a3b8' }}>* zorunlu alan</span>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>İptal</button>
+                  <button type="submit" className="btn btn-primary"><FileText size={14} /> Muayene Kaydet</button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {showSevkModal && sevkMuayene && (
+        <SevkKagidiModal
+          muayene={sevkMuayene}
+          onClose={() => { setShowSevkModal(false); setSevkMuayene(null); }}
+        />
+      )}
+    </div>
+  );
+}
+
+function SevkKagidiModal({ muayene, onClose }) {
+  if (!muayene) return null;
+
+  const hasta = muayene.randevu?.hasta;
+  const doktor = muayene.randevu?.doktor;
+  const tarih = muayene.muayeneTarihi
+    ? new Date(muayene.muayeneTarihi).toLocaleDateString('tr-TR')
+    : new Date().toLocaleDateString('tr-TR');
+  const dogumTarihi = hasta?.dogumTarihi
+    ? new Date(hasta.dogumTarihi).toLocaleDateString('tr-TR')
+    : null;
+
+  return (
+    <div id="sevk-print-root">
+      <div className="modal-overlay" onClick={onClose}>
+        <div
+          className="modal"
+          style={{ maxWidth: 520, fontFamily: 'serif' }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div style={{ padding: '28px 32px' }}>
+            <div style={{ textAlign: 'center', borderBottom: '2px solid #0d9488', paddingBottom: 12, marginBottom: 16 }}>
+              <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 1, color: '#0d9488' }}>
+                ŞIFA POLİKLİNİĞİ
+              </div>
+              <div style={{ fontSize: 11, color: '#64748b', letterSpacing: 2, textTransform: 'uppercase', marginTop: 2 }}>
+                Sevk Kâğıdı
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 16px', fontSize: 13, marginBottom: 16 }}>
+              <div><span style={{ color: '#64748b' }}>Hasta Adı Soyadı:</span><br /><strong>{hasta?.ad} {hasta?.soyad}</strong></div>
+              <div><span style={{ color: '#64748b' }}>TC Kimlik No:</span><br /><strong>{hasta?.tcKimlik || '—'}</strong></div>
+              {dogumTarihi && (
+                <div><span style={{ color: '#64748b' }}>Doğum Tarihi:</span><br />{dogumTarihi}</div>
+              )}
+              <div><span style={{ color: '#64748b' }}>Sevk Tarihi:</span><br />{tarih}</div>
+            </div>
+
+            <div style={{ border: '1px solid #cbd5e1', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13 }}>
+              <div style={{ color: '#64748b', fontSize: 11, marginBottom: 4 }}>Sevk Edilen Kurum / Bölüm:</div>
+              <strong>{muayene.sevkKurumu}</strong>
+            </div>
+
+            <div style={{ border: '1px solid #cbd5e1', borderRadius: 6, padding: '10px 14px', marginBottom: 20, fontSize: 13 }}>
+              <div style={{ color: '#64748b', fontSize: 11, marginBottom: 4 }}>Tanı / Sevk Nedeni:</div>
+              <span style={{ whiteSpace: 'pre-wrap' }}>{muayene.tani || '—'}</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ textAlign: 'center', borderTop: '1px solid #334155', paddingTop: 6, minWidth: 140 }}>
+                <div style={{ fontSize: 13, fontWeight: 600 }}>
+                  {doktor?.unvan} {doktor?.kullanici?.ad} {doktor?.kullanici?.soyad}
+                </div>
+                <div style={{ fontSize: 11, color: '#64748b' }}>
+                  {doktor?.klinik?.ad || 'Klinik'}
+                </div>
+                <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 2 }}>İmza / Kaşe</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-footer sevk-modal-actions" style={{ justifyContent: 'flex-end', gap: 8 }}>
+            <button type="button" className="btn btn-secondary" onClick={onClose}>Kapat</button>
+            <button type="button" className="btn btn-primary" onClick={() => window.print()}>
+              <Printer size={14} /> Yazdır / PDF
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

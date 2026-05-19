@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Muayene Popup Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 20px 60px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .label-tag {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== MEVCUT ===== */
+  .modal-old {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    width: 420px;
+    overflow: hidden;
+  }
+  .modal-old .mh {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-old .mh h3 { font-size: 14px; font-weight: 700; color: #0f172a; }
+  .modal-old .mh span { color: #94a3b8; font-size: 18px; cursor: pointer; }
+  .modal-old .info-box {
+    background: #f8fafc;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 12px;
+    color: #334155;
+  }
+  .modal-old .info-box strong { color: #0f172a; }
+  .modal-old .mb { padding: 18px 20px; }
+  .modal-old .fg { margin-bottom: 14px; }
+  .modal-old .fg label { display: block; font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 5px; }
+  .modal-old .fg textarea, .modal-old .fg input {
+    width: 100%; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 6px;
+    padding: 8px 10px; font-size: 12px; color: #334155; resize: none;
+  }
+  .modal-old .fg textarea { height: 56px; }
+  .modal-old .mf {
+    padding: 12px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: flex-end; gap: 8px;
+  }
+  .modal-old .mf .btn-cancel {
+    background: #f1f5f9; border-radius: 6px; padding: 7px 16px;
+    font-size: 12px; color: #64748b; border: none; cursor: pointer;
+  }
+  .modal-old .mf .btn-save {
+    background: #0d9488; border-radius: 6px; padding: 7px 16px;
+    font-size: 12px; color: #fff; font-weight: 600; border: none; cursor: pointer;
+  }
+
+  /* ===== YENİ ===== */
+  .modal-new {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(15,23,42,0.12);
+    width: 460px;
+    overflow: hidden;
+  }
+
+  /* Üst: Başlık */
+  .modal-new .mh {
+    padding: 20px 24px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .modal-new .mh-left { display: flex; align-items: center; gap: 10px; }
+  .modal-new .icon-wrap {
+    width: 36px; height: 36px;
+    background: #f0fdfa;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .modal-new .mh h3 { font-size: 15px; font-weight: 700; color: #0f172a; }
+  .modal-new .mh .sub { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+  .modal-new .close-btn {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: #f8fafc; display: flex; align-items: center; justify-content: center;
+    color: #94a3b8; font-size: 14px; cursor: pointer;
+  }
+
+  /* Hasta bilgileri - yatay şerit */
+  .modal-new .patient-strip {
+    margin: 0 24px 20px;
+    margin-top: 16px;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .modal-new .avatar {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #0d9488, #06b6d4);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 16px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .modal-new .patient-info { flex: 1; }
+  .modal-new .patient-name { font-size: 13px; font-weight: 700; color: #0f172a; }
+  .modal-new .patient-meta { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .modal-new .patient-right { text-align: right; }
+  .modal-new .badge {
+    display: inline-block;
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    color: #0d9488;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 2px 8px;
+  }
+  .modal-new .klinik { font-size: 10px; color: #94a3b8; margin-top: 3px; }
+
+  /* Form alanları */
+  .modal-new .mb { padding: 0 24px 4px; }
+
+  .modal-new .fg { margin-bottom: 14px; }
+  .modal-new .fg-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11.5px; font-weight: 600; color: #475569;
+    margin-bottom: 6px;
+  }
+  .modal-new .fg-label .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .modal-new .fg-label .req {
+    color: #f43f5e; font-size: 10px; margin-left: 2px;
+  }
+  .modal-new textarea, .modal-new input {
+    width: 100%;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #0f172a;
+    resize: none;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  .modal-new textarea:focus, .modal-new input:focus {
+    border-color: #0d9488;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(13,148,136,0.08);
+  }
+  .modal-new textarea { height: 68px; }
+  .modal-new .input-hint {
+    font-size: 10px; color: #94a3b8; margin-top: 4px; padding-left: 2px;
+  }
+
+  /* Sevk alanı - subtle dashed */
+  .modal-new .sevk-input {
+    background: #fafafa;
+    border: 1.5px dashed #e2e8f0;
+  }
+
+  /* Footer */
+  .modal-new .mf {
+    padding: 16px 24px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .modal-new .mf-hint { font-size: 11px; color: #94a3b8; }
+  .modal-new .mf-actions { display: flex; gap: 8px; }
+  .modal-new .btn-cancel {
+    background: transparent; border: 1.5px solid #e2e8f0;
+    border-radius: 8px; padding: 9px 18px;
+    font-size: 13px; color: #64748b; cursor: pointer;
+    font-weight: 500;
+  }
+  .modal-new .btn-save {
+    background: #0d9488;
+    border: none; border-radius: 8px; padding: 9px 20px;
+    font-size: 13px; color: #fff; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 8px rgba(13,148,136,0.25);
+  }
+
+  .page-title {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    padding-bottom: 4px;
+  }
+  .page-sub {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 24px;
+  }
+
+  .divider {
+    width: 1px;
+    background: #e2e8f0;
+    height: auto;
+    align-self: stretch;
+    margin: 0 8px;
+  }
+
+  .arrow {
+    font-size: 28px;
+    color: #cbd5e1;
+    align-self: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">Muayene Popup — Önce / Sonra</div>
+<div class="page-sub">Sol: Şu anki tasarım &nbsp;·&nbsp; Sağ: Önerilen minimal yeni tasarım</div>
+
+<!-- MEVCUT -->
+<div class="wrapper">
+  <span class="label-tag">Şu an</span>
+  <div class="modal-old">
+    <div class="mh">
+      <h3>Muayene Kaydı</h3>
+      <span>✕</span>
+    </div>
+    <div class="mb">
+      <div class="info-box">
+        <div><strong>Hasta:</strong> Ahmet Yılmaz</div>
+        <div><strong>TC:</strong> 12345678901</div>
+        <div><strong>Doktor:</strong> Dr. Mehmet Kaya</div>
+        <div><strong>Klinik:</strong> Kardiyoloji</div>
+      </div>
+      <div class="fg">
+        <label>Tanı / Teşhis *</label>
+        <textarea placeholder="Hastanın tanısını yazınız..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Reçete (İlaçlar)</label>
+        <textarea placeholder="Yazılan ilaçları giriniz..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Rapor</label>
+        <textarea placeholder="Muayene raporunu yazınız..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Sevk Edilecek Kurum (İsteğe Bağlı)</label>
+        <input type="text" placeholder="Örn: X Eğitim Araştırma Hastanesi - Kardiyoloji"/>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn-cancel">İptal</button>
+      <button class="btn-save">Muayene Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div class="arrow">→</div>
+
+<!-- YENİ -->
+<div class="wrapper">
+  <span class="label-tag" style="background:#f0fdfa; color:#0d9488; border:1px solid #99f6e4;">Önerilen</span>
+  <div class="modal-new">
+    <div class="mh">
+      <div class="mh-left">
+        <div class="icon-wrap">🩺</div>
+        <div>
+          <h3>Muayene Kaydı</h3>
+          <div class="sub">Bulgular ve tedavi bilgilerini girin</div>
+        </div>
+      </div>
+      <div class="close-btn">✕</div>
+    </div>
+
+    <!-- Hasta şeridi -->
+    <div class="patient-strip">
+      <div class="avatar">AY</div>
+      <div class="patient-info">
+        <div class="patient-name">Ahmet Yılmaz</div>
+        <div class="patient-meta">TC: 12345678901 &nbsp;·&nbsp; Dr. Mehmet Kaya</div>
+      </div>
+      <div class="patient-right">
+        <div class="badge">Kardiyoloji</div>
+        <div class="klinik">14:30 · Bugün</div>
+      </div>
+    </div>
+
+    <div class="mb">
+      <!-- Tanı -->
+      <div class="fg">
+        <div class="fg-label">
+          <div class="dot" style="background:#f59e0b;"></div>
+          Tanı / Teşhis
+          <span class="req">*</span>
+        </div>
+        <textarea placeholder="Hastanın tanısını ve teşhisini yazınız…"></textarea>
+      </div>
+      <!-- Reçete -->
+      <div class="fg">
+        <div class="fg-label">
+          <div class="dot" style="background:#3b82f6;"></div>
+          Reçete
+        </div>
+        <textarea placeholder="Yazılan ilaçları ve dozajları giriniz…"></textarea>
+        <div class="input-hint">Her ilacı yeni satıra yazabilirsiniz</div>
+      </div>
+      <!-- Rapor -->
+      <div class="fg">
+        <div class="fg-label">
+          <div class="dot" style="background:#10b981;"></div>
+          Rapor
+        </div>
+        <textarea placeholder="Muayene raporunu yazınız…"></textarea>
+      </div>
+      <!-- Sevk -->
+      <div class="fg">
+        <div class="fg-label">
+          <div class="dot" style="background:#e2e8f0;"></div>
+          Sevk Kurumu
+          <span style="font-size:10px; font-weight:400; color:#94a3b8; margin-left:4px;">(isteğe bağlı)</span>
+        </div>
+        <input class="sevk-input" type="text" placeholder="Örn: X Eğitim Araştırma Hastanesi — Kardiyoloji Polikliniği"/>
+      </div>
+    </div>
+
+    <div class="mf">
+      <span class="mf-hint">* zorunlu alan</span>
+      <div class="mf-actions">
+        <button class="btn-cancel">İptal</button>
+        <button class="btn-save">
+          <span>💾</span> Muayene Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

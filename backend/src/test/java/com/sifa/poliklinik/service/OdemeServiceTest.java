@@ -3,6 +3,7 @@ package com.sifa.poliklinik.service;
 import com.sifa.poliklinik.exception.ConflictException;
 import com.sifa.poliklinik.model.*;
 import com.sifa.poliklinik.model.enums.OdemeDurumu;
+import com.sifa.poliklinik.model.enums.OdemeTipi;
 import com.sifa.poliklinik.model.enums.SGKDurumu;
 import com.sifa.poliklinik.repository.OdemeRepository;
 import com.sifa.poliklinik.service.sgk.SGKAdapter;
@@ -228,7 +229,7 @@ class OdemeServiceTest {
 
         when(odemeRepository.findById(50L)).thenReturn(Optional.of(odendi));
 
-        assertThatThrownBy(() -> odemeService.odemeTahsilat(50L))
+        assertThatThrownBy(() -> odemeService.odemeTahsilat(50L, OdemeTipi.NAKIT))
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining("zaten tahsil edilmiş");
 

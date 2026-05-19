@@ -1,3 +1,11 @@
+com/sifa/poliklinik/service/muayene/Test4_BasariliMuayeneKaydi.class
+com/sifa/poliklinik/service/HastaServiceTest.class
+com/sifa/poliklinik/service/muayene/Test2_IptalRandevuyaMuayene.class
+com/sifa/poliklinik/service/muayene/Test3_TamamlanmisRandevuyaMuayene.class
+com/sifa/poliklinik/service/muayene/Test6_MukerrerOdemeOnleme.class
+com/sifa/poliklinik/service/muayene/Test1_RandevuBulunamadi.class
 com/sifa/poliklinik/service/OdemeServiceTest.class
 com/sifa/poliklinik/service/RandevuServiceTest.class
-com/sifa/poliklinik/service/HastaServiceTest.class
+com/sifa/poliklinik/service/muayene/Test7_MuayeneGetirBulunamadi.class
+com/sifa/poliklinik/service/muayene/Test8_MuayeneGuncelle.class
+com/sifa/poliklinik/service/muayene/Test5_SgkIndirimHesabi.class

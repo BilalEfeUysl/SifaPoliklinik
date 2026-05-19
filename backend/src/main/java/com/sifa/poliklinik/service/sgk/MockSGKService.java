@@ -30,7 +30,7 @@ public class MockSGKService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        boolean aktif = random.nextDouble() < 0.70;
+        boolean aktif = random.nextDouble() < 0.50;
         sgkCache.put(tcKimlik, aktif);
         log.info("MockSGK: TC {} - SGK yanıtı alındı: {}", tcKimlik, aktif ? "AKTİF" : "PASİF");
         return aktif;

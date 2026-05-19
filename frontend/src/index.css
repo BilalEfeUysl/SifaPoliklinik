@@ -879,3 +879,11 @@ input, select, textarea { font-family: inherit; }
   .stats-grid { grid-template-columns: 1fr; }
   .login-card { padding: 32px 24px; }
 }
+
+/* --- Print (Sevk Kâğıdı) --- */
+@media print {
+  body > *:not(#sevk-print-root) { display: none !important; }
+  #sevk-print-root { display: block !important; position: static !important; }
+  #sevk-print-root .modal-overlay { position: static !important; background: none !important; }
+  #sevk-print-root .sevk-modal-actions { display: none !important; }
+}
