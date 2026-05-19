@@ -1,0 +1,75 @@
+<h2>Bugünkü Randevular — eylem butonu olsun mu?</h2>
+<p class="subtitle">Dashboard'daki randevu listesinde doktor ne yapabilsin?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="padding:12px">
+        <div style="font-size:10px;font-weight:600;margin-bottom:6px;color:#374151">Bugünkü Randevular</div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">09:00 — Ahmet Yılmaz</div>
+            <div style="font-size:9px;color:#64748b;">Genel Dahiliye</div>
+          </div>
+          <div style="background:#3b82f6;color:#fff;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600">Muayeneye Başla</div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">10:30 — Fatma Kaya</div>
+            <div style="font-size:9px;color:#64748b;">Genel Dahiliye</div>
+          </div>
+          <div style="background:#3b82f6;color:#fff;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600">Muayeneye Başla</div>
+        </div>
+        <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:8px;display:flex;align-items:center;justify-content:space-between;opacity:.6">
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">14:00 — Mehmet Demir</div>
+            <div style="font-size:9px;color:#64748b;">Genel Dahiliye</div>
+          </div>
+          <div style="background:#94a3b8;color:#fff;font-size:9px;padding:3px 8px;border-radius:4px;">✓ Tamamlandı</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Eylem butonlu</h3>
+      <p>Her bekleyen randevuda "Muayeneye Başla" butonu. Tıklanınca doğrudan Muayeneler sayfasına geçer. Daha hızlı iş akışı.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="padding:12px">
+        <div style="font-size:10px;font-weight:600;margin-bottom:6px;color:#374151">Bugünkü Randevular</div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">09:00 — Ahmet Yılmaz</div>
+            <div style="font-size:9px;color:#64748b;">Bekliyor · Genel Dahiliye</div>
+          </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">10:30 — Fatma Kaya</div>
+            <div style="font-size:9px;color:#64748b;">Bekliyor · Genel Dahiliye</div>
+          </div>
+        </div>
+        <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:8px;display:flex;align-items:center;gap:8px;opacity:.6">
+          <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:#111">14:00 — Mehmet Demir</div>
+            <div style="font-size:9px;color:#64748b;">Tamamlandı · Genel Dahiliye</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;text-align:right">
+          <div style="font-size:9px;color:#3b82f6;font-weight:600">→ Tüm randevular için Muayeneler sayfasına git</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sadece bilgi</h3>
+      <p>Dashboard sade kalır, sadece randevuları gösterir. Muayene işlemleri için altta "Muayeneler sayfasına git" linki var.</p>
+    </div>
+  </div>
+
+</div>

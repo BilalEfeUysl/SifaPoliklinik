@@ -1,0 +1,4 @@
+{"type":"server-started","port":50512,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:50512","screen_dir":"/Users/bilal_efe/Desktop/yazmüh/.superpowers/brainstorm/11856-1779177641/content","state_dir":"/Users/bilal_efe/Desktop/yazmüh/.superpowers/brainstorm/11856-1779177641/state"}
+{"type":"screen-added","file":"/Users/bilal_efe/Desktop/yazmüh/.superpowers/brainstorm/11856-1779177641/content/dashboard-layout.html"}
+{"type":"screen-added","file":"/Users/bilal_efe/Desktop/yazmüh/.superpowers/brainstorm/11856-1779177641/content/waiting-1.html"}
+{"type":"server-stopped","reason":"idle timeout"}

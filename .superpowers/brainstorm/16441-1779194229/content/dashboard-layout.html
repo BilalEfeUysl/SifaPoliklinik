@@ -1,0 +1,70 @@
+<h2>Doktor Dashboard — Hangi layout?</h2>
+<p class="subtitle">Doktorun giriş yaptığında gördüğü ekranın genel yapısı. Birini seç.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="padding:12px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
+          <div class="placeholder" style="height:48px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Bugün 4 randevu</div>
+          <div class="placeholder" style="height:48px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Bu ay 62 muayene</div>
+          <div class="placeholder" style="height:48px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Bekleyen 2</div>
+        </div>
+        <div class="placeholder" style="height:80px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Bugünkü Randevular (liste)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+          <div class="placeholder" style="height:60px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Yaklaşan Randevular</div>
+          <div class="placeholder" style="height:60px;border-radius:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Son Muayeneler</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Özet + Listeler</h3>
+      <p>Üstte istatistik kartları, altında bugünkü randevular ve son muayeneler yan yana. Klasik dashboard yapısı.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="padding:12px">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+          <div>
+            <div class="placeholder" style="height:24px;border-radius:4px;margin-bottom:6px;font-size:10px;display:flex;align-items:center;justify-content:center;">Bugünkü Randevular (geniş)</div>
+            <div class="placeholder" style="height:24px;border-radius:4px;margin-bottom:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.7">09:00 — Ahmet Yılmaz</div>
+            <div class="placeholder" style="height:24px;border-radius:4px;margin-bottom:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.7">10:30 — Fatma Kaya</div>
+            <div class="placeholder" style="height:24px;border-radius:4px;margin-bottom:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.7">14:00 — Mehmet Demir</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="placeholder" style="height:40px;border-radius:6px;font-size:9px;display:flex;align-items:center;justify-content:center;">Bugün 4</div>
+            <div class="placeholder" style="height:40px;border-radius:6px;font-size:9px;display:flex;align-items:center;justify-content:center;">Bu ay 62</div>
+            <div class="placeholder" style="height:40px;border-radius:6px;font-size:9px;display:flex;align-items:center;justify-content:center;">Bekleyen 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Randevu odaklı (2 sütun)</h3>
+      <p>Solda bugünkü randevular büyük ve öncelikli, sağda küçük istatistikler. Doktorun asıl ihtiyacına odaklı.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="padding:12px">
+        <div style="display:flex;gap:0;margin-bottom:8px;border-bottom:2px solid #e2e8f0">
+          <div style="padding:4px 12px;font-size:10px;background:#3b82f6;color:#fff;border-radius:4px 4px 0 0;font-weight:600">Randevularım</div>
+          <div style="padding:4px 12px;font-size:10px;color:#94a3b8;">Muayene Geçmişi</div>
+          <div style="padding:4px 12px;font-size:10px;color:#94a3b8;">İstatistikler</div>
+        </div>
+        <div class="placeholder" style="height:28px;border-radius:4px;margin-bottom:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.7">● Bekleyen — 09:00 Ahmet Yılmaz</div>
+        <div class="placeholder" style="height:28px;border-radius:4px;margin-bottom:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.7">● Bekleyen — 10:30 Fatma Kaya</div>
+        <div class="placeholder" style="height:28px;border-radius:4px;font-size:9px;display:flex;align-items:center;padding-left:8px;opacity:.5">✓ Tamamlandı — dün</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tab bazlı</h3>
+      <p>Tek sayfada sekmeler: Randevularım / Muayene Geçmişi / İstatistikler. Basit, sade, az gürültü.</p>
+    </div>
+  </div>
+
+</div>
