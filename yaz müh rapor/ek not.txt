@@ -1,0 +1,5 @@
+Visual studioda md dosyasını açtıktan sonra terminalde pdf dönüşümü yapıp güncellemek için kullanabileceğiniz terminal kodları:
+npx -y md-to-pdf risk_tablosu.md
+npx -y md-to-pdf izlenebilirlik_tablosu.md
+npx -y md-to-pdf kabuller_ve_kisitlar.md
+npx -y md-to-pdf Guncel_Use_Cases.md 
